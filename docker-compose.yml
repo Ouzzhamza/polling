@@ -1,0 +1,41 @@
+version: "3.8"
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: nextjs_poll_app
+    ports:
+      - "3000:3000"
+    volumes:
+      - .:/app
+      - /app/node_modules
+    environment:
+      DATABASE_URL: postgresql://polling_user:polling_pass@db:5432/polling_app
+      NODE_ENV: development
+    depends_on:
+      db:
+        condition: service_healthy 
+    command: npm run dev
+
+  db:
+    image: postgres:16-alpine
+    container_name: polling_db
+    restart: always
+    environment:
+      POSTGRES_USER: polling_user
+      POSTGRES_PASSWORD: polling_pass
+      POSTGRES_DB: polling_app
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U polling_user -d polling_app"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  postgres_data:
