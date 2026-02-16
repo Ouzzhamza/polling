@@ -1,5 +1,6 @@
 import {create} from "zustand";
 import { Poll } from "../types/types";
+import { persist } from "zustand/middleware";
 
 interface PollStore {
   selectedPoll: Poll | null;
@@ -7,7 +8,14 @@ interface PollStore {
 }
 
 
-export const usePollStore = create<PollStore>((set) => ({
-  selectedPoll: null,
-  setSelectedPoll: (poll) => set({ selectedPoll: poll }),
-}));
+export const usePollStore = create<PollStore>()(
+  persist(
+    (set) => ({
+      selectedPoll: null,
+      setSelectedPoll: (poll) => set({ selectedPoll: poll }),
+    }),
+    {
+      name: "poll-storage",
+    }
+  )
+);
