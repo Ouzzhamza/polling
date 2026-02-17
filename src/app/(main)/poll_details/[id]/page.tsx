@@ -6,6 +6,7 @@ import { BarChart, Bar, XAxis, YAxis, Tooltip } from "recharts";
 
 import { PollOption, VoterInfo } from "@/types/types";
 import { mockVoters } from "@/data/data";
+import { useRouter } from "next/navigation";
 
 const VotesChartData = ({ options }: { options: PollOption[] | undefined }) => {
   if (!options) return null;
@@ -81,6 +82,11 @@ const Voters = ({ id }: { id: string | undefined }) => {
 
 function Page() {
   const selectedPoll = usePollStore((state) => state.selectedPoll);
+  const router = useRouter();
+
+  const handleVoteClick = () => {
+    router.push(`/poll_voting`);
+  };
 
   return (
     <div className="w-full h-full p-8">
@@ -96,7 +102,9 @@ function Page() {
             </p>
           </div>
           {!selectedPoll?.HasBeenVoted && (
-            <button className="bg-btn text-navy text-md font-bold px-5 py-2.5 rounded-xl hover:cursor-pointer hover:bg-btn-active/90 transition-all">
+            <button className="bg-btn text-navy text-md font-bold px-5 py-2.5 rounded-xl hover:cursor-pointer hover:bg-btn-active/90 transition-all"
+            onClick={handleVoteClick}
+            >
             Vote now
           </button>
           )}

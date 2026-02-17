@@ -16,6 +16,11 @@ function Polls() {
        router.prefetch(`/poll_details/${poll.id}`);
   };
 
+  const handleVoteClick = (poll: Poll) => {
+    setSelectedPoll(poll);
+    router.push(`/poll_voting`);
+  };
+
   const PollCard = ({ poll }: { poll: Poll }) => {
     return (
       <div className="cursor-pointer flex flex-col justify-between p-6 rounded-2xl bg-gray-800 hover:bg-gray-700  hover:border-btn transition-all duration-300 hover:scale-[1.02] ">
@@ -36,7 +41,10 @@ function Polls() {
         </p>
         <div className="mt-6 flex items-center justify-between gap-3">
           {!poll.HasBeenVoted ? (
-            <button className="bg-btn text-navy text-md font-bold px-5 py-2.5 rounded-xl hover:cursor-pointer hover:bg-btn-active/90 transition-all">
+            <button
+              className="bg-btn text-navy text-md font-bold px-5 py-2.5 rounded-xl hover:cursor-pointer hover:bg-btn-active/90 transition-all"
+              onClick={() => handleVoteClick(poll)}
+            >
               Vote now →
             </button>
           ) : (

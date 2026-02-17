@@ -40,3 +40,9 @@ export interface Vote {
   votedAt: Date;
   isAnonymous: boolean;
 }
+
+
+export interface VoteFormData {
+  optionId: string;
+  isAnonymous: boolean;
+}

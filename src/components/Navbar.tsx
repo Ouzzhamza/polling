@@ -1,3 +1,4 @@
+import Link from "next/link";
 import React from "react";
 
 function Navbar() {
@@ -6,9 +7,9 @@ function Navbar() {
       <div className="mx-auto flex items-center justify-between">
 
         <div className="flex items-center gap-2 cursor-pointer group">
-          <h1 className="text-4xl font-bold text-white tracking-tight">
+          <Link href={"/"} className="text-4xl font-bold text-white tracking-tight">
             Poll App
-          </h1>
+          </Link >
         </div>
 
         <div className="flex items-center gap-4">
