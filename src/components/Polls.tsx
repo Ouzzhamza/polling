@@ -11,15 +11,18 @@ function Polls() {
 
   const setSelectedPoll = usePollStore((state) => state.setSelectedPoll);
   const router = useRouter();
-  const handlePrefetch = (poll: Poll) => {
+
+  const handleDetailsPrefetch = (poll: Poll) => {
     setSelectedPoll(poll);
-       router.prefetch(`/poll_details/${poll.id}`);
+    router.prefetch(`/poll_details/${poll.id}`);
   };
 
-  const handleVoteClick = (poll: Poll) => {
+  const handleVotingPrefetch = (poll: Poll) => {
     setSelectedPoll(poll);
-    router.push(`/poll_voting`);
-  };
+    router.prefetch(`/poll_details/${poll.id}`)
+  }
+
+
 
   const PollCard = ({ poll }: { poll: Poll }) => {
     return (
@@ -41,19 +44,21 @@ function Polls() {
         </p>
         <div className="mt-6 flex items-center justify-between gap-3">
           {!poll.HasBeenVoted ? (
-            <button
+            <Link
+              href={`/poll_voting/${poll.id}`}
               className="bg-btn text-navy text-md font-bold px-5 py-2.5 rounded-xl hover:cursor-pointer hover:bg-btn-active/90 transition-all"
-              onClick={() => handleVoteClick(poll)}
+             onMouseEnter={() => handleVotingPrefetch(poll)}
+              // onClick={() => handleVoteClick(poll)}
             >
               Vote now →
-            </button>
+            </Link>
           ) : (
             <div className="flex-1 h-11"></div>
           )}
           <Link
             href={`/poll_details/${poll.id}`}
             className="text-sm font-bold text-btn uppercase"
-            onMouseEnter={() => handlePrefetch(poll)}
+            onMouseEnter={() => handleDetailsPrefetch(poll)}
           >
             View Details →
           </Link>

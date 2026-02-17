@@ -28,19 +28,18 @@ function Page() {
   };
 
   return (
-    <div className="w-full h-full p-8">
+    <div className="w-full h-full p-8 xl:px-24">
       <h2 className="text-white/80 text-2xl">Poll details</h2>
-
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className="relative h-full mt-6 p-6 rounded-2xl bg-gray-800 flex flex-col gap-10"
+        className="relative h-full w-full mt-6 p-6 rounded-2xl bg-gray-800 flex flex-col gap-10 overflow-y-auto"
       >
         <div className="w-full flex items-start justify-between gap-6">
-          <div className="max-w-3xl flex-shrink-0">
+          <div>
             <h2 className="text-3xl font-extrabold text-white tracking-tight leading-tight">
               {selectedPoll?.title}
             </h2>
-            <p className="mt-4 text-gray-400 text-lg leading-relaxed font-light">
+            <p className="mt-4 text-gray-400 text-lg leading-relaxed font-light ">
               {selectedPoll?.description}
             </p>
           </div>
@@ -54,12 +53,12 @@ function Page() {
               return (
                 <button
                   key={option.id}
-                  type="button" // Prevents form submission on click
+                  type="button"
                   onClick={() => setValue("optionId", option.id)}
                   className={`group relative w-full h-20 px-6 rounded-2xl flex items-center gap-4 transition-all duration-300 border cursor-pointer
                     ${
                       isSelected
-                        ? "bg-gray-800/60 border-btn shadow-[0_0_15px_rgba(59,184,168,0.15)]"
+                        ? "bg-gray-800/60 border-btn"
                         : "bg-gray-900/40 border-gray-800 hover:border-gray-600 hover:bg-gray-800/40"
                     }`}
                 >
@@ -89,7 +88,7 @@ function Page() {
             })}
           </div>
 
-          <div className="md:w-2/3 md:px-24">
+          <div className="xl:w-2/3 xl:px-44 pb-4">
             <div className="flex items-center justify-between mb-6">
               <div>
                 <h3 className="text-white text-lg font-semibold flex items-center gap-2">
@@ -106,7 +105,7 @@ function Page() {
 
               <label className="relative inline-block w-[60px] h-[34px] cursor-pointer">
                 <input type="checkbox" className="opacity-0 w-0 h-0 peer" />
-                <span className="absolute top-0 left-0 right-0 bottom-0 bg-gray-700 rounded-[34px] transition-all duration-400 before:absolute before:content-[''] before:h-[26px] before:w-[26px] before:left-1 before:bottom-1 before:bg-white before:rounded-full before:transition-all before:duration-400 peer-checked:bg-btn peer-focus:shadow-[0_0_1px_#2196F3] peer-checked:before:translate-x-[26px]" />
+                <span className="absolute top-0 left-0 right-0 bottom-0 bg-gray-700 rounded-[34px] transition-all duration-400 before:absolute before:content-[''] before:h-[26px] before:w-[26px] before:left-1 before:bottom-1 before:bg-white before:rounded-full before:transition-all before:duration-400 peer-checked:bg-btn peer-checked:before:translate-x-[26px]" />
               </label>
             </div>
 
