@@ -1,0 +1,59 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String   @id @default(uuid())
+  username  String   @unique
+  email     String   @unique
+  password  String
+  polls     Poll[]   @relation("UserPolls")
+  votes     Vote[]
+  createdAt DateTime @default(now())
+}
+
+model Poll {
+  id          String   @id @default(uuid())
+  title       String
+  description String?
+  isAnonymous Boolean  @default(false)
+  options     Option[]
+  votes       Vote[]
+  creatorId   String?
+  creator     User?    @relation("UserPolls", fields: [creatorId], references: [id])
+  createdAt   DateTime @default(now())
+}
+
+model Option {
+  id     String @id @default(uuid())
+  text   String
+  pollId String
+  poll   Poll   @relation(fields: [pollId], references: [id])
+  votes  Vote[]
+}
+
+model Vote {
+  id          String   @id @default(uuid())
+  pollId      String
+  optionId    String
+  userId      String?
+  isAnonymous Boolean  @default(false)
+  voterName   String?
+  poll        Poll     @relation(fields: [pollId], references: [id])
+  option      Option   @relation(fields: [optionId], references: [id])
+  user        User?    @relation(fields: [userId], references: [id])
+  createdAt   DateTime @default(now())
+
+  @@unique([pollId, userId]) // Prevents double voting
+}
