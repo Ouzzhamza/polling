@@ -1,8 +1,8 @@
 export const typeDefs = `#graphql
   type User {
     id: ID!
-    email: String
-    username: String
+    email: String!
+    username: String!
     createdAt: String!
   }
 
@@ -14,11 +14,12 @@ export const typeDefs = `#graphql
     totalVotes: Int!
     createdAt: String!
     creator: User
-    options: [PollOption!]!
+    options: [Option!]!
+    votes: [Vote!]!
     hasVoted: Boolean
   }
 
-  type PollOption {
+  type Option {
     id: ID!
     text: String!
     voteCount: Int!
@@ -27,7 +28,8 @@ export const typeDefs = `#graphql
   type Vote {
     id: ID!
     poll: Poll!
-    option: PollOption!
+    option: Option!
+    user: User
     voterName: String
     isAnonymous: Boolean!
     createdAt: String!
@@ -36,6 +38,25 @@ export const typeDefs = `#graphql
   type AuthPayload {
     token: String!
     user: User!
+  }
+
+  type PollResults {
+    poll: Poll!
+    options: [OptionResult!]!
+    voters: [Voter!]!
+  }
+
+  type OptionResult {
+    id: ID!
+    text: String!
+    voteCount: Int!
+  }
+
+  type Voter {
+    id: ID!
+    name: String!
+    votedFor: String!
+    votedAt: String!
   }
 
   type Query {
@@ -62,24 +83,5 @@ export const typeDefs = `#graphql
       isAnonymous: Boolean
       voterName: String
     ): Vote!
-  }
-
-  type PollResults {
-    poll: Poll!
-    options: [OptionResult!]!
-    voters: [Voter!]!
-  }
-
-  type OptionResult {
-    id: ID!
-    text: String!
-    voteCount: Int!
-  }
-
-  type Voter {
-    id: ID!
-    name: String!
-    votedFor: String!
-    votedAt: String!
   }
 `;

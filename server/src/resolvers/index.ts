@@ -1,9 +1,5 @@
 import prisma from "../utils/prisma";
-import {
-  hashPassword,
-  comparePasswords,
-  generateToken,
-} from "../utils/auth";
+import { hashPassword, comparePasswords, generateToken } from "../utils/auth";
 
 interface Context {
   userId?: string;
@@ -16,7 +12,12 @@ export const resolvers = {
         include: {
           options: true,
           creator: true,
-          votes: true,
+          votes: {
+            include: {
+              option: true,
+              user: true,
+            },
+          },
         },
         orderBy: {
           createdAt: "desc",
@@ -30,7 +31,12 @@ export const resolvers = {
         include: {
           options: true,
           creator: true,
-          votes: true,
+          votes: {
+            include: {
+              option: true,
+              user: true,
+            },
+          },
         },
       });
     },
@@ -147,6 +153,12 @@ export const resolvers = {
         include: {
           options: true,
           creator: true,
+          votes: {
+            include: {
+              option: true,
+              user: true,
+            },
+          },
         },
       });
     },
@@ -156,17 +168,19 @@ export const resolvers = {
       { pollId, optionId, isAnonymous, voterName }: any,
       context: Context
     ) => {
-      const existingVote = await prisma.vote.findUnique({
-        where: {
-          pollId_userId: {
-            pollId,
-            userId: context.userId || "",
+      if (context.userId) {
+        const existingVote = await prisma.vote.findUnique({
+          where: {
+            pollId_userId: {
+              pollId,
+              userId: context.userId,
+            },
           },
-        },
-      });
+        });
 
-      if (existingVote) {
-        throw new Error("You have already voted on this poll");
+        if (existingVote) {
+          throw new Error("You have already voted on this poll");
+        }
       }
 
       return prisma.vote.create({
@@ -180,6 +194,7 @@ export const resolvers = {
         include: {
           poll: true,
           option: true,
+          user: true,
         },
       });
     },
@@ -208,10 +223,32 @@ export const resolvers = {
     },
   },
 
-  PollOption: {
+  Option: {
     voteCount: async (parent: any) => {
       return prisma.vote.count({
         where: { optionId: parent.id },
+      });
+    },
+  },
+
+  Vote: {
+    user: async (parent: any) => {
+      if (!parent.userId) return null;
+
+      return prisma.user.findUnique({
+        where: { id: parent.userId },
+      });
+    },
+
+    option: async (parent: any) => {
+      return prisma.option.findUnique({
+        where: { id: parent.optionId },
+      });
+    },
+
+    poll: async (parent: any) => {
+      return prisma.poll.findUnique({
+        where: { id: parent.pollId },
       });
     },
   },
