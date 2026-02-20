@@ -24,10 +24,7 @@ Make sure you have the following installed before proceeding:
 docker compose up --build
 ```
 
-This will:
-- Start PostgreSQL and wait until it's healthy
-- Start the GraphQL server at `http://localhost:4000/graphql`
-- Start the Next.js frontend at `http://localhost:3000`
+- Start the app  `http://localhost:3000`
 
 
 
