@@ -82,14 +82,6 @@ export const resolvers = {
         voters,
       };
     },
-
-    me: async (_: any, __: any, context: Context) => {
-      if (!context.userId) return null;
-
-      return prisma.user.findUnique({
-        where: { id: context.userId },
-      });
-    },
   },
 
   Mutation: {

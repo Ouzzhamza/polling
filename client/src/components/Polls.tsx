@@ -19,12 +19,14 @@ function Polls() {
         Loading polls...
       </div>
     );
-  if (error)
+  if (error) {
+    console.log(error);
     return (
       <div className="w-full h-full flex justify-center items-center text-red-400 ">
         Error: Can&apos;t load polls
       </div>
     );
+  }
 
   const polls: Poll[] = data?.polls || [];
 
@@ -33,11 +35,13 @@ function Polls() {
     router.prefetch(`/poll_details/${poll.id}`);
   };
 
-  const handleVotingPrefetch = (poll: Poll) => {
+  const handleVotingPrefetch = (poll: Poll) => { 
     
     router.prefetch(`/poll_voting/${poll.id}`);
   };
 
+
+  console.log(polls)
   const PollCard = ({ poll }: { poll: Poll }) => {
 
      const hasVotedLocally =
@@ -48,7 +52,7 @@ function Polls() {
      const alreadyVoted = hasVotedLocally || poll.hasVoted;
 
     return (
-      <div className="cursor-pointer flex flex-col justify-between p-6 rounded-2xl bg-gray-800 hover:bg-gray-700 hover:border-btn transition-all duration-300 hover:scale-[1.02] ">
+      <div className="h-[220px] cursor-pointer flex flex-col justify-between p-6 rounded-2xl bg-gray-800 hover:bg-gray-700 hover:border-btn transition-all duration-300 ">
         <div className="flex justify-between items-center">
           <h3 className="text-xl font-bold text-white mt-2 mb-3 hover:text-btn transition-colors">
             {poll.title}
@@ -60,17 +64,16 @@ function Polls() {
             </span>
           </div>
         </div>
-
         <p className="text-gray-400 text-sm leading-relaxed line-clamp-2">
           {poll.description || "No description"}
         </p>
-
-        {!poll.isAnonymous && poll.creator && (
+        {poll.isAnonymous ? (
+          <p className="text-gray-500 text-xs mt-2">by Anonymous</p>
+        ) : (
           <p className="text-gray-500 text-xs mt-2">
-            by {poll.creator.username}
+            by {poll.creator?.username || "Guest"}
           </p>
         )}
-
         <div className="mt-6 flex items-center justify-between gap-3">
           {!alreadyVoted ? (
             <Link

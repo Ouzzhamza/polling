@@ -55,5 +55,5 @@ model Vote {
   user        User?    @relation(fields: [userId], references: [id])
   createdAt   DateTime @default(now())
 
-  @@unique([pollId, userId]) // Prevents double voting
+  @@unique([pollId, userId]) 
 }

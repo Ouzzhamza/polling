@@ -19,10 +19,16 @@ export const generateToken = (userId: string): string => {
 };
 
 export const verifyToken = (token: string): { userId: string } => {
+  // console.log("token: ", token); 
+  // console.log(
+  //   "verified: ",
+  //   jwt.verify(token, JWT_SECRET) as { userId: string }
+  // );
   return jwt.verify(token, JWT_SECRET) as { userId: string };
 };
 
 export const getUserFromToken = (token?: string): string | null => {
+  // console.log("token passed", token)
   if (!token) return null;
 
   try {

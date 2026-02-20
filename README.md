@@ -1,36 +1,63 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
-## Getting Started
+# Polling App — Local Setup Guide
 
-First, run the development server:
+A full-stack polling application built with Next.js, Apollo GraphQL, Prisma, and PostgreSQL, orchestrated with Docker Compose.
+
+
+## Prerequisites
+
+Make sure you have the following installed before proceeding:
+
+- [Docker Desktop] (includes Docker Compose)
+- [Node.js 20+]
+
+---
+
+
+## Quick Start (Docker — Recommended)
+
+### 1. Clone the repository
+
+### 2. Start everything
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+docker compose up --build
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+This will:
+- Start PostgreSQL and wait until it's healthy
+- Start the GraphQL server at `http://localhost:4000/graphql`
+- Start the Next.js frontend at `http://localhost:3000`
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
 
-## Learn More
 
-To learn more about Next.js, take a look at the following resources:
+## What You Can Do
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+The app is designed to be flexible — you don't need an account to participate.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### Browsing Polls
+- View all available polls on the **Polls page**
+- Click into any poll to see its **Poll Details page** — view the question, options, and current vote breakdown
+- No login required to browse
 
-## Deploy on Vercel
+### Voting
+- Vote on any poll from the **Voting page**
+- **One vote per poll** — once you've voted you cannot change it
+- Vote as a **guest** (no account needed), as an **anonymous user**, or as a **logged-in user**
+  - Guest votes are counted but not tied to any identity
+  - Anonymous mode hides your username even if you're logged in
+  - Logged-in votes are recorded under your username
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### Creating Polls
+- Create a poll from any mode — **guest**, **anonymous**, or **logged in**
+- Set a title, description, and add your answer options
+- Choose **anonymous mode** to hide your identity as the poll creator
+- Logged-in users have their username shown as the creator (unless anonymous mode is on)
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+### Accounts
+- **Register** with a username to get a persistent identity across sessions
+- **Log in** to have your votes and created polls tied to your account
+- Logging in is optional — the full app works without an account
+
+---

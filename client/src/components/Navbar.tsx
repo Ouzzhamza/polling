@@ -1,10 +1,20 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 
 function Navbar() {
   const path = usePathname().split("/").includes("poll_creation");
+  const router = useRouter();
+
+  const isLoggedIn =
+    typeof window !== "undefined" && !!localStorage.getItem("auth_token");
+
+  const handleLogout = () => {
+    localStorage.removeItem("auth_token");
+    router.push("/");
+    router.refresh();
+  };
 
   return (
     <nav className="sticky top-0 z-50 w-full bg-navy/80 backdrop-blur-md py-4 pt-8 px-6 xl:px-44">
@@ -28,9 +38,21 @@ function Navbar() {
             </Link>
           )}
 
-          <button className="border border-btn text-white hover:bg-gray-800 px-5 py-2.5 rounded-xl transition-all hover:cursor-pointer">
-            Login
-          </button>
+          {isLoggedIn ? (
+            <button
+              onClick={handleLogout}
+              className="border border-red-500 text-red-400 hover:bg-red-500/10 px-5 py-2.5 rounded-xl transition-all cursor-pointer"
+            >
+              Logout
+            </button>
+          ) : (
+            <Link
+              href={"/login"}
+              className="border border-btn text-white hover:bg-gray-800 px-5 py-2.5 rounded-xl transition-all hover:cursor-pointer"
+            >
+              Login
+            </Link>
+          )}
         </div>
       </div>
     </nav>

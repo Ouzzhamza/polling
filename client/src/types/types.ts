@@ -59,3 +59,18 @@ export interface GetPollsData {
 export interface GetPollData {
   poll: Poll;
 }
+
+export interface CreatePollResponse {
+  createPoll: {
+    id: string;
+    title: string;
+  };
+}
+
+
+export interface CreatePollInputs {
+  title: string;
+  description: string;
+  options: { value: string }[];
+  isAnonymous: boolean;
+}

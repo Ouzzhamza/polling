@@ -21,7 +21,6 @@ function Page() {
   const [voteSuccess, setVoteSuccess] = useState(false);
   const [hasVotedLocally, setHasVotedLocally] = useState(false);
 
-  // Check localStorage and redirect if already voted
   useEffect(() => {
     if (!selectedPoll?.id) return;
     const votedLocally = !!localStorage.getItem(`voted_${selectedPoll.id}`);
@@ -59,7 +58,7 @@ function Page() {
       setVoteSuccess(true);
 
       setTimeout(() => {
-        router.push(`/poll_details/${selectedPoll.id}`);
+        router.push(`/`);
       }, 1500);
     } catch (error) {
       console.error("Vote error:", error);

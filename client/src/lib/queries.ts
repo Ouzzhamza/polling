@@ -69,3 +69,48 @@ export const VOTE_MUTATION = gql`
     }
   }
 `;
+
+export const CREATE_POLL_MUTATION = gql`
+  mutation CreatePoll(
+    $title: String!
+    $description: String
+    $options: [String!]!
+    $isAnonymous: Boolean!
+  ) {
+    createPoll(
+      title: $title
+      description: $description
+      options: $options
+      isAnonymous: $isAnonymous
+    ) {
+      id
+      title
+    }
+  }
+`;
+
+export const LOGIN_MUTATION = gql`
+  mutation Login($email: String!, $password: String!) {
+    login(email: $email, password: $password) {
+      token
+      user {
+        id
+        username
+        email
+      }
+    }
+  }
+`;
+
+export const REGISTER_MUTATION = gql`
+  mutation Register($email: String!, $username: String!, $password: String!) {
+    register(email: $email, username: $username, password: $password) {
+      token
+      user {
+        id
+        username
+        email
+      }
+    }
+  }
+`;
